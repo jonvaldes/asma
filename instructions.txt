@@ -1,0 +1,117 @@
+// RAX - Stack head
+// RBX - Stack address
+// Return stack address is RSP, the normal x86 register for the stack
+// --These will be static
+// DICTIONARY
+// STACK SIZE 
+// STACK POSITION
+// ----------
+// load //
+mov rax, [rax]
+	
+// store //
+	mov r10, [rbx]
+	mov [rax], r10
+	mov rax, [rbx-1]
+	sub rbx, 2
+
+// push 0xBAADBEEFBAADBEEF //
+	add rbx, 1
+	mov [rbx], rax
+	mov rax, 0xBAADBEEFBAADBEEF
+
+// sub //
+	sub rax, [rbx]
+	sub rbx, 1
+
+// add //
+	add rax, [rbx]
+	sub rbx, 1
+
+// and //
+	and rax, [rbx]
+	sub rbx, 1
+
+// or //
+	or rax, [rbx]
+	sub rbx, 1
+
+// xor //
+	xor rax, [rbx]
+	sub rbx, 1
+
+// inv //
+	not rax
+
+// shl //
+	shl rax, 1
+
+// shr //
+	shr rax, 1
+
+// mul //
+	imul qword [rbx] ; rax = rax * [rbx]
+	sub rbx, 1
+
+// div //
+	idiv qword [rbx] ; rax = rax / [rbx]
+	sub rbx, 1
+
+// jeq 0xBAADBEEF //
+	mov r10, rax
+	mov r11, [rbx]
+	mov rax, [rbx+1]
+	sub rbx, 2
+	cmp r10, r11
+	je 0xBAADBEEFBAADBEEF
+
+// jne 0xBAADBEEF //
+	mov r10, rax
+	mov r11, [rbx]
+	mov rax, [rbx+1]
+	sub rbx, 2
+	cmp r10, r11
+	jne 0xBAADBEEFBAADBEEF
+
+// jg 0xBAADBEEF //
+	mov r10, rax
+	mov r11, [rbx]
+	mov rax, [rbx+1]
+	sub rbx, 2
+	cmp r10, r11
+	jg 0xBAADBEEFBAADBEEF
+
+// jl 0xBAADBEEF //
+	mov r10, rax
+	mov r11, [rbx]
+	mov rax, [rbx+1]
+	sub rbx, 2
+	cmp r10, r11
+	jl 0xBAADBEEFBAADBEEF
+
+// swap //
+	mov r10, rax
+	mov rax, [rbx]
+	mov [rbx], r10
+
+// dup //
+	add rbx, 1
+	mov [rbx], rax
+
+// drop //
+	mov rax, [rbx]
+	sub rbx, 1
+
+// over //
+	mov r10, [rbx]
+	add rbx, 1
+	mov [rbx], rax
+	mov rax, r10
+
+// call 0xBAADBEEF //
+	call 0xBAADBEEF
+
+// ret //
+	ret
+
+// --- //

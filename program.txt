@@ -1,0 +1,29 @@
+( This is a comment )
+
+( This is a multiline comment
+  which should also work fine )
+
+(
+	Also, execution always starts at the beginning,
+	but you can define any functions later on, and
+	they'll be patched-in 
+)
+
+	push 4
+	pow2
+	mul2	
+	push 10
+	add
+	ret
+
+( pow2 Returns x^2 )
+func pow2
+	dup
+	mul
+	ret
+
+( mul2 Returns x*2 )
+func mul2 
+	push 2
+	mul
+	ret
