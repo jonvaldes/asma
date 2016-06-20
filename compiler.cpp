@@ -43,6 +43,13 @@ int main(int argc, const char **argv) {
     // Output file
     fd = fopen(argv[2], "w");
 
+	// First thing is writing the stack saving code
+	// Saves stack address, passed in rdx (second func parameter) to rbx
+    i32 writtenBytes = 0;
+	const Instruction * saveStack = &g_instructions[Instr_savestackaddr];
+    fwrite(saveStack->data, 1, saveStack->size, fd);
+	writtenBytes += saveStack->size;
+
     // Replace spaces with null terminators
     u8 *s = data;
     for(i32 i = 0; i < fileSize; i++) {
@@ -61,7 +68,6 @@ int main(int argc, const char **argv) {
     FuncInfo *functionCalls = (FuncInfo *)malloc(sizeof(FuncInfo) * MAX_FUNCCALLS);
     i32 functionCallCnt = 0;
     i32 functionCnt = 0;
-    i32 writtenBytes = 0;
 
     // Parse words
     const char *end = (const char *)&data[fileSize];
@@ -125,7 +131,7 @@ int main(int argc, const char **argv) {
             }
             // printf("Adding function definition %s\n", w);
             functions[functionCnt].name = w;
-            functions[functionCnt].address = writtenBytes;
+            functions[functionCnt].address = writtenBytes - 4;
             functionCnt++;
             goto wordRead;
         }
